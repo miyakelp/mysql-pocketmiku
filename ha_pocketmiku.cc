@@ -161,9 +161,10 @@ ha_pocketmiku::ha_pocketmiku(handlerton *hton, TABLE_SHARE *table_arg)
     : handler(hton, table_arg),
       dev_fp(-1),
       next_is_eof(false) {
-  strncpy(sound, "1", 1);
-  strncpy(note_key, "2", 1);
-  strncpy(velocity, "3", 1);
+  strncpy(sound, "0", 2);
+  strncpy(note_key, "0", 2);
+  strncpy(velocity, "0", 2);
+  strncpy(length, "0", 2);
 }
 
 /*
@@ -278,16 +279,17 @@ int ha_pocketmiku::write_update_row(void) {
     }
     strncpy(attribute_buffer, attribute.ptr(), attribute.length());
     attribute_buffer[attribute.length()] = '\0';
-    puts((*field)->field_name);
-    puts(attribute_buffer);
-    if (strncmp((*field)->field_name, POCKET_MIKU_COL_KEY, strlen((*field)->field_name)) == 0) {
-      strncpy(note_key, attribute_buffer, strlen(attribute_buffer));
+    if (strncmp((*field)->field_name, POCKET_MIKU_COL_KEY, strlen(POCKET_MIKU_COL_KEY)) == 0) {
+      strncpy(note_key, attribute_buffer, strlen(attribute_buffer) + 1);
     }
-    if (strncmp((*field)->field_name, POCKET_MIKU_COL_SOUND, strlen((*field)->field_name)) == 0) {
-      strncpy(sound, attribute_buffer, strlen(attribute_buffer));
+    if (strncmp((*field)->field_name, POCKET_MIKU_COL_SOUND, strlen(POCKET_MIKU_COL_SOUND)) == 0) {
+      strncpy(sound, attribute_buffer, strlen(attribute_buffer) + 1);
     }
-    if (strncmp((*field)->field_name, POCKET_MIKU_COL_VELOCITY, strlen((*field)->field_name)) == 0) {
-      strncpy(velocity, attribute_buffer, strlen(attribute_buffer));
+    if (strncmp((*field)->field_name, POCKET_MIKU_COL_VELOCITY, strlen(POCKET_MIKU_COL_VELOCITY)) == 0) {
+      strncpy(velocity, attribute_buffer, strlen(attribute_buffer) + 1);
+    }
+    if (strncmp((*field)->field_name, POCKET_MIKU_COL_LENGTH, strlen(POCKET_MIKU_COL_LENGTH)) == 0) {
+      strncpy(length, attribute_buffer, strlen(attribute_buffer) + 1);
     }
   }
   tmp_restore_column_map(table->read_set, org_bitmap);
@@ -298,8 +300,11 @@ int ha_pocketmiku::write_update_row(void) {
   miku_note_off[POCKET_MIKU_INDEX_OFF_KEY] = (uint8_t)atoi(note_key);
 
   my_write(dev_fp, miku_note_on, POCKET_MIKU_DATA_LEN_ON, MYF(0));
-  usleep(length * 1000);
+  fsync(dev_fp);
+  usleep(atoi(length) * 900);
   my_write(dev_fp, miku_note_off, POCKET_MIKU_DATA_LEN_OFF, MYF(0));
+  fsync(dev_fp);
+  usleep(atoi(length) * 100);
 
   return 0;
 }
@@ -343,7 +348,6 @@ int ha_pocketmiku::write_row(uchar *) {
     probably need to do something with 'buf'. We report a success
     here, to pretend that the insert was successful.
   */
-  puts("WRITE");
   return write_update_row();
 }
 
