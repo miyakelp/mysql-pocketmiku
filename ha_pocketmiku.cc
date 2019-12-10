@@ -488,6 +488,7 @@ int ha_pocketmiku::index_last(uchar *) {
 */
 int ha_pocketmiku::rnd_init(bool) {
   DBUG_TRACE;
+  next_is_eof = false;
   return 0;
 }
 
@@ -518,7 +519,6 @@ int ha_pocketmiku::rnd_next(uchar *buf) {
 
   if (next_is_eof) {
     rc= HA_ERR_END_OF_FILE;
-    next_is_eof = false;
     return rc;
   }
 
