@@ -373,7 +373,7 @@ int ha_pocketmiku::write_row(uchar *) {
 */
 int ha_pocketmiku::update_row(const uchar *, uchar *) {
   DBUG_TRACE;
-  return HA_ERR_WRONG_COMMAND;
+  return write_update_row();
 }
 
 /**
