@@ -272,19 +272,21 @@ int ha_pocketmiku::write_update_row(void) {
     if (attribute.length() < 1) {
       continue;
     }
-    strncpy(attribute_buffer, attribute.ptr(), attribute.length());
-    attribute_buffer[attribute.length()] = '\0';
     if (strncmp((*field)->field_name, POCKET_MIKU_COL_KEY, strlen(POCKET_MIKU_COL_KEY)) == 0) {
-      strncpy(share->note_key, attribute_buffer, strlen(attribute_buffer) + 1);
+      strncpy(share->note_key, attribute.ptr(), attribute.length());
+      share->note_key[attribute.length()] = '\0';
     }
     if (strncmp((*field)->field_name, POCKET_MIKU_COL_SOUND, strlen(POCKET_MIKU_COL_SOUND)) == 0) {
-      strncpy(share->sound, attribute_buffer, strlen(attribute_buffer) + 1);
+      strncpy(share->sound, attribute.ptr(), attribute.length());
+      share->sound[attribute.length()] = '\0';
     }
     if (strncmp((*field)->field_name, POCKET_MIKU_COL_VELOCITY, strlen(POCKET_MIKU_COL_VELOCITY)) == 0) {
-      strncpy(share->velocity, attribute_buffer, strlen(attribute_buffer) + 1);
+      strncpy(share->velocity, attribute.ptr(), attribute.length());
+      share->velocity[attribute.length()] = '\0';
     }
     if (strncmp((*field)->field_name, POCKET_MIKU_COL_LENGTH, strlen(POCKET_MIKU_COL_LENGTH)) == 0) {
-      strncpy(share->length, attribute_buffer, strlen(attribute_buffer) + 1);
+      strncpy(share->length, attribute.ptr(), attribute.length());
+      share->length[attribute.length()] = '\0';
     }
   }
   tmp_restore_column_map(table->read_set, org_bitmap);
