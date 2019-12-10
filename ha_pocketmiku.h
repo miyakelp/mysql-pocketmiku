@@ -61,6 +61,7 @@
 #define POCKET_MIKU_INDEX_OFF_KEY 1
 
 
+
 /** @brief
   pocketmiku_share is a class that will be shared among all open handlers.
   This pocketmiku implements the minimum of what you will probably need.
@@ -70,6 +71,18 @@ class pocketmiku_share : public Handler_share {
   THR_LOCK lock;
   pocketmiku_share();
   ~pocketmiku_share() { thr_lock_delete(&lock); }
+
+  int dev_fp = -1;
+  char note_key[4] = { 0 };
+  char sound[4] = { 0 };
+  char velocity[4] = { 0 };
+  char length[11] = { 0 };
+
+  uint8_t miku_note_on[POCKET_MIKU_DATA_LEN_ON] = {
+    0xf0, 0x43, 0x79, 0x09, 0x11, 0x0a,
+    0x00, 0x00, 0xf7, 0x90, 0x00, 0x00
+  };
+  uint8_t miku_note_off[POCKET_MIKU_DATA_LEN_OFF] = {0x80, 0x00, 0x00};
 };
 
 /** @brief
@@ -80,18 +93,7 @@ class ha_pocketmiku : public handler {
   pocketmiku_share *share;        ///< Shared lock info
   pocketmiku_share *get_share();  ///< Get the share
 
-  int dev_fp;
-  char note_key[4];
-  char sound[4];
-  char velocity[4];
-  char length[11];
   bool next_is_eof;
-
-  uint8_t miku_note_on[POCKET_MIKU_DATA_LEN_ON] = {
-    0xf0, 0x43, 0x79, 0x09, 0x11, 0x0a,
-    0x00, 0x00, 0xf7, 0x90, 0x00, 0x00
-  };
-  uint8_t miku_note_off[POCKET_MIKU_DATA_LEN_OFF] = {0x80, 0x00, 0x00};
 
  public:
   ha_pocketmiku(handlerton *hton, TABLE_SHARE *table_arg);
