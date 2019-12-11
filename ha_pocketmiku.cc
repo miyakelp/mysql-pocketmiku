@@ -297,10 +297,8 @@ int ha_pocketmiku::write_update_row(void) {
   share->miku_note_off[POCKET_MIKU_INDEX_OFF_KEY] = (uint8_t)atoi(share->note_key);
 
   my_write(share->dev_fp, share->miku_note_on, POCKET_MIKU_DATA_LEN_ON, MYF(0));
-  fsync(share->dev_fp);
   usleep(atoi(share->length) * 900);
   my_write(share->dev_fp, share->miku_note_off, POCKET_MIKU_DATA_LEN_OFF, MYF(0));
-  fsync(share->dev_fp);
   usleep(atoi(share->length) * 100);
 
   return 0;
