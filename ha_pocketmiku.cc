@@ -976,7 +976,7 @@ mysql_declare_plugin(pocketmiku){
     MYSQL_STORAGE_ENGINE_PLUGIN,
     &pocketmiku_storage_engine,
     "POCKETMIKU",
-    "Brian Aker, MySQL AB",
+    "miyakelp",
     "pocketmiku storage engine",
     PLUGIN_LICENSE_GPL,
     pocketmiku_init_func, /* Plugin Init */
