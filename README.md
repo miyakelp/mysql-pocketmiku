@@ -17,12 +17,13 @@ INSTALL PLUGIN pocketmiku SONAME 'ha_pocketmiku.so';
 1. ポケットミクをUSBケーブルで接続します（/dev/midi1 がポケットミクである前提で進めます）
 2. テーブルをつくります
 ```mysql
- CREATE TABLE `/dev/midi1` (
+ CREATE DATABASE mikumiku;
+ CREATE TABLE mikumiku.`/dev/midi1` (
   `key` tinyint(4) DEFAULT NULL,
   `sound` tinyint(4) DEFAULT NULL,
   `velocity` tinyint(4) DEFAULT NULL,
   `length` int(11) DEFAULT NULL
-) ENGINE=pocketmiku
+) ENGINE=pocketmiku;
 ```
 3. INSERTします
 ```mysql
