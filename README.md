@@ -5,6 +5,8 @@ MySQL 8.0.18のexampleストレージエンジンをベースに作成してい�
 
 MySQL Advent Calendar 2019 14日目のネタです。
 
+https://miyakelp.hatenablog.jp/entry/2019/12/14/000000
+
 ## Usage
 
 はじめにビルドして.soファイルをインストールしてください。
