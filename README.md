@@ -16,7 +16,7 @@ INSTALL PLUGIN pocketmiku SONAME 'ha_pocketmiku.so';
 ```
 
 
-1. ポケットミクをUSBケーブルで接続します（/dev/midi1 がポケットミクである前提で進めます）
+1. ポケットミクをUSBケーブルで接続します（/dev/midi1 がポケットミクかつmysql-serverを実行しているユーザで書き込み可能である前提で進めます）
 2. テーブルをつくります
 ```mysql
  CREATE DATABASE mikumiku;
